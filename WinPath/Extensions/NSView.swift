@@ -31,7 +31,7 @@ extension NSView {
     {
         // サブビュー分繰り返し
         for view in self.subviews {
-            // サブビューの破棄
+            // 削除
             view.removeFromSuperview()
         }
     }
@@ -49,10 +49,30 @@ extension NSView {
     /**
      * 表示領域に対して左右中央寄せにする
      */
-    public func aliginCenter(wrapWidth: CGFloat, y: CGFloat)
+    public func alignCenter(wrapWidth: CGFloat, y: CGFloat)
     {
         let x = (wrapWidth / 2) - (self.frame.size.width / 2)
         self.frame.origin = CGPoint(x: x, y: y)
+    }
+    /**
+     * 対象の右に配置する
+     */
+    public func verticalAlign(size: CGSize, position: String)
+    {
+        // 表示位置を初期化
+        var y:CGFloat = 0
+        // 指定位置を作成
+        switch position {
+        case "middle":
+            y = (size.height / 2) - self.frame.size.height
+            break;
+        case "bottom":
+            y = size.height - self.frame.size.height
+            break;
+        default:
+            y = 0
+        }
+        self.frame.origin.y = y
     }
     /**
      * 表示領域を変えず左に余白を入れる
@@ -75,4 +95,5 @@ extension NSView {
     {
         self.frame.origin = CGPoint(x: target.origin.x + target.size.width + margin, y: target.origin.y)
     }
+    
 }

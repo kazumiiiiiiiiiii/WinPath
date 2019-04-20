@@ -59,24 +59,7 @@ class HistoryView: NSView {
             // エラーを出力
             self.error(message: "ご指定の" + Const.pathName + "は開けませんでした。", button: "OK")
         }
-        let frame = self.frame
-        // サブビューを削除
-        scrollView.removeFromSuperview()
-        // ビューを取得
-        for views in historyViews {
-            // ビューを取得
-            let button = views["button"] as! NSButton
-            let execView = views["exec_view"] as! NSTextView
-            let pathView = views["path_view"] as! NSTextView
-            let borderView = views["border_view"] as! NSView
-            button.removeFromSuperview()
-            execView.removeFromSuperview()
-            pathView.removeFromSuperview()
-            borderView.removeFromSuperview()
-        }
-        nullView.removeFromSuperview()
-        self.setSelfView()
-        self.setViewFrame(frame: frame)
+        self.reloadSelfView()
     }
     /**
      * アクティブ時メソッド
@@ -177,6 +160,8 @@ class HistoryView: NSView {
             self.addSubview(scrollView)
         }
         // 表示件数なし用のView
+        nullView = NSTextView()
+        // 文字追加
         nullView.insertText("※ " + Const.historyName + "が保存されていません。", replacementRange: NSRange(location: 0, length: 0))
         nullView.backgroundColor = NSColor.clear
         
@@ -241,6 +226,28 @@ class HistoryView: NSView {
             nullView.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: 12)
             nullView.verticalAlign(size: frame.size, position: "middle")
         }
-        
+    }
+    /**
+     * 画面の再読み込み
+     */
+    public func reloadSelfView()
+    {
+        // サブビューを削除
+        scrollView.removeFromSuperview()
+        // ビューを取得
+        for views in historyViews {
+            // ビューを取得
+            let button = views["button"] as! NSButton
+            let execView = views["exec_view"] as! NSTextView
+            let pathView = views["path_view"] as! NSTextView
+            let borderView = views["border_view"] as! NSView
+            button.removeFromSuperview()
+            execView.removeFromSuperview()
+            pathView.removeFromSuperview()
+            borderView.removeFromSuperview()
+        }
+        nullView.removeFromSuperview()
+        self.setSelfView()
+        self.setViewFrame(frame: self.frame)
     }
 }

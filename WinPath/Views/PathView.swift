@@ -138,7 +138,7 @@ class PathView: NSView, NSTextFieldDelegate {
             // アラートスタイル指定
             bookmarkAlert.alertStyle = .informational
             // メッセージ設定
-            bookmarkAlert.messageText = Const.bookmarkName + "名を入力してください。"
+            bookmarkAlert.messageText = Const.bookmarkName + "の保存名を入力してください。"
             // ブックマーク名のテキスト
             let bookmarkName = NSTextField(frame: NSRect(x: 0, y: 0, width: 300, height: 20))
             // プレースフォルダー
@@ -151,6 +151,7 @@ class PathView: NSView, NSTextFieldDelegate {
             bookmarkAlert.addButton(withTitle: "キャンセル")
             // ブックマークアラート表示
             let res = bookmarkAlert.runModal()
+            bookmarkAlert.accessoryView?.becomeFirstResponder()
             // レスポンス判定
             if res == NSApplication.ModalResponse.alertFirstButtonReturn { // OK
                 // ブックマーク名を取得
@@ -162,13 +163,13 @@ class PathView: NSView, NSTextFieldDelegate {
                     // ブックマークを登録
                     if (BookmarkManager.addBookmark(name: name, type: config.type, open: config.open, input: config.input) == false) {
                         // エラーを出力
-                        self.error(message: Const.bookmarkName + "に失敗しました", button: "OK")
+                        self.error(message: Const.bookmarkName + "に失敗しました。", button: "OK")
                     }
                     // ブックマーク追加
                     
                 } else {
                     // 未指定時はエラー
-                    self.error(message: Const.bookmarkName + "名が入力されていません。", button: "閉じる")
+                    self.error(message: Const.bookmarkName + "の保存名が入力されていません。", button: "閉じる")
                 }
             }
         }
